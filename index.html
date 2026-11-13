@@ -147,7 +147,7 @@ function policyFinance(x,option){
 function beginTurn(){g.stage='choice';g.revenue=round(100*(g.pop/100000)*(0.5+0.5*g.v.econ/50)*g.tax);g.budget=round(g.budget+g.revenue);const finance=operateCity();g.financeHistory.push({turn:g.turn,...finance});const applied=[];for(const p of [...g.pending])if(p.turn<=g.turn){apply(p.e,p.pop);if(p.resilience)g.resilience+=p.resilience;applied.push(p.note);g.pending.splice(g.pending.indexOf(p),1)}g.warning=[...finance.notes,...(applied.length?['과거 정책 효과 적용: '+applied.join(' / ')]:[])].join(' / ');g.current=pickScenario();if(g.turn===7&&!g.taxDone)g.stage='tax';render()}
 function chooseTax(id){
  if(g.stage!=='tax')return;
- const data={A:{tax:1.15,e:E(-1,0,-3),name:'지방세율 15% 인상',detail:'추가 재원 확보를 선택했습니다. 다음 턴부터 세수에 1.15배 계수가 적용됩니다. 다만 주민과 기업의 세금 부담이 증가해 경제 활성화와 시민 만족도가 소폭 하락합니다.'},B:{tax:1,e:E(),name:'현행 지방세율 유지',detail:'현재의 세율을 유지하기로 결정했습니다. 세수 산정 계수는 1.00배이며 추가 세금 부담이나 감세 효과는 발생하지 않습니다.'},C:{tax:.85,e:E(1,0,3),name:'지방세율 15% 인하',detail:'납세 부담을 줄이기로 결정했습니다. 다음 턴부터 세수에 0.85배 계수가 적용됩니다. 시민의 가처분소득 부담이 줄어 만족도와 경제 활성화가 소폭 개선됩니다.'}};
+ const data={A:{tax:1.15,e:E(-1,0,-10),name:'지방세율 15% 인상',detail:'추가 재원 확보를 선택했습니다. 다음 턴부터 세수에 1.15배 계수가 적용됩니다. 다만 주민과 기업의 세금 부담이 증가해 경제 활성화가 소폭 하락하고 시민 만족도가 크게 하락합니다.'},B:{tax:1,e:E(),name:'현행 지방세율 유지',detail:'현재의 세율을 유지하기로 결정했습니다. 세수 산정 계수는 1.00배이며 추가 세금 부담이나 감세 효과는 발생하지 않습니다.'},C:{tax:.85,e:E(1,0,8),name:'지방세율 15% 인하',detail:'납세 부담을 줄이기로 결정했습니다. 다음 턴부터 세수에 0.85배 계수가 적용됩니다. 시민의 가처분소득 부담이 줄어 시민 만족도가 뚜렷하게 개선되고 경제 활성화도 소폭 개선됩니다.'}};
  const x=data[id];if(!x)return;
  g.tax=x.tax;apply(x.e);g.taxDone=true;g.taxHistory={turn:g.turn,id,...x};g.stage='taxResult';render();
 }
